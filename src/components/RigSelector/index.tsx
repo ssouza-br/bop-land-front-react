@@ -1,15 +1,20 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { requestInstance } from "../../services/axiosService";
 
+interface BOP {
+  id: number;
+  sonda: string;
+}
+
 const RigSelector = ({
   onSelectChange,
 }: {
   onSelectChange: (selectedValue: number) => void;
 }) => {
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<BOP[]>();
   const [selectedSonda, setSelectedSonda] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Fetch options from an API
@@ -30,7 +35,7 @@ const RigSelector = ({
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     setSelectedSonda(selectedValue);
-    onSelectChange(selectedValue);
+    onSelectChange(selectedValue as unknown as number);
   };
 
   if (loading) return <div>Loading...</div>;

@@ -10,11 +10,11 @@ export interface Items {
 }
 
 export interface TestData {
-  testId: number;
-  rig: string;
-  testName: string;
-  valves: string[];
-  preventors: string[];
+  testeId: number;
+  bopId: number;
+  nome: string;
+  valvulasTestadas: string[];
+  preventoresTestados: string[];
 }
 
 interface Prop {
@@ -39,7 +39,7 @@ const DisplayTestData = ({ items, onPageChange }: Prop) => {
         </thead>
         <tbody>
           {data.map((item) => (
-            <tr key={item.testId}>
+            <tr key={item.testeId}>
               <td>{item.bopId}</td>
               <td>{item.nome}</td>
               <td>
@@ -54,7 +54,7 @@ const DisplayTestData = ({ items, onPageChange }: Prop) => {
               </td>
               <td>
                 <button
-                  onClick={() => console.log(item.testId)}
+                  onClick={() => console.log(item.testeId)}
                   className="btn btn-success btn-sm"
                 >
                   Aprovar

@@ -21,11 +21,17 @@ ChartJS.register(
   Legend
 );
 
+interface ForecastData {
+  date: string;
+  min_temp: string;
+  max_temp: string;
+}
+
 const WeatherForecast = ({ bopId }: { bopId: number }) => {
-  const [forecast, setForecast] = useState([]);
+  const [forecast, setForecast] = useState<ForecastData[]>();
   const [city, setCity] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchWeatherForecast = async () => {
@@ -48,9 +54,9 @@ const WeatherForecast = ({ bopId }: { bopId: number }) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
-  const dates = forecast.map((day) => day.date);
-  const minTemperatures = forecast.map((day) => day.min_temp);
-  const maxTemperatures = forecast.map((day) => day.max_temp);
+  const dates = forecast?.map((day) => day.date);
+  const minTemperatures = forecast?.map((day) => day.min_temp);
+  const maxTemperatures = forecast?.map((day) => day.max_temp);
 
   const data = {
     labels: dates,
