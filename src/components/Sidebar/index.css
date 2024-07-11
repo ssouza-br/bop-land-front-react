@@ -1,33 +1,39 @@
-.sidebar nav {
-    padding: 0px !important;
-}
-
-.sidebar ul li:hover {
-    background-color: red;
-}
-
 .sidebar {
-    width: 300px !important;
     height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #f4f4f4;
-    padding-top: 20px;
 }
 
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s, color 0.2s;
 }
 
-.sidebar ul li {
-    padding: 8px;
-    text-align: left;
+.sidebar .nav-link:hover {
+    background-color: #495057;
+    color: #ffffff;
 }
 
-.sidebar ul li a {
-    text-decoration: none;
-    color: #333;
-    display: block;
+.sidebar .nav-pills .nav-link {
+    padding-left: 2rem;
+}
+
+.sidebar .nav-pills .nav-item .nav-link:hover {
+    background-color: #495057;
+    color: #ffffff;
+}
+
+.sidebar .nav-item .nav-link .bi {
+    margin-right: 0.5rem;
+}
+
+/* Exclude hover for 'Testes' */
+.sidebar .no-hover .nav-link:hover {
+    background-color: red;
+    color: inherit;
+}
+
+.sidebar .nav-link.no-hover {
+    cursor: default;
 }

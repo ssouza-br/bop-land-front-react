@@ -22,7 +22,7 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="nav-item p-1">
-            <div className="nav-link text-white">
+            <div className="nav-link text-white no-hover">
               <i className="bi bi-ui-checks-grid fs-5 me-2"></i>
               <span className="fs-5">Testes</span>
             </div>

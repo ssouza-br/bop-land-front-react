@@ -112,7 +112,11 @@ const BOP = () => {
           value={sonda}
           onChange={handleInputChange}
         />
-        <button type="button" className="btn btn-outline-secondary">
+        <button
+          type="button"
+          className="btn btn-outline-secondary"
+          onClick={buscarBOP}
+        >
           Buscar
         </button>
         <button

@@ -11,17 +11,20 @@ interface Prop {
 
 const CreateBOP = ({ onClose, onSaveItem }: Prop) => {
   const [sonda, setSonda] = useState("");
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
   const [valvulas, setValvulas] = useState<Equipment[]>([]);
   const [preventores, setPreventores] = useState<Equipment[]>([]);
   const [selectedValvulas, setSelectedValvulas] = useState<Equipment[]>([]);
   const [selectedPreventores, setSelectedPreventores] = useState<Equipment[]>(
     []
   );
+  const [formValid, setFormValid] = useState(false); // State to track form validity
 
   useEffect(() => {
     const fetchValvulas = async () => {
       try {
-        const response = await requestInstance.get("valvula/all");
+        const response = await requestInstance.get("api/valvula");
         setValvulas(response.data);
       } catch (error) {
         console.error("Error fetching valvulas", error);
@@ -30,7 +33,7 @@ const CreateBOP = ({ onClose, onSaveItem }: Prop) => {
 
     const fetchPreventores = async () => {
       try {
-        const response = await requestInstance.get("preventor/all");
+        const response = await requestInstance.get("api/preventor");
         setPreventores(response.data);
       } catch (error) {
         console.error("Error fetching preventores", error);
@@ -41,15 +44,36 @@ const CreateBOP = ({ onClose, onSaveItem }: Prop) => {
     fetchPreventores();
   }, []);
 
-  const handleSondaChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
+  useEffect(() => {
+    // Check form validity whenever sonda, latitude, or longitude change
+    const isFormValid =
+      sonda !== "" &&
+      latitude !== null &&
+      longitude !== null &&
+      selectedPreventores.length != 0 &&
+      selectedValvulas.length != 0;
+    setFormValid(isFormValid);
+  }, [sonda, latitude, longitude, selectedPreventores, selectedValvulas]);
+
+  const handleSondaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSonda(e.target.value);
+  };
+
+  const handleLongitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setLongitude(value);
+  };
+
+  const handleLatitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setLatitude(value);
   };
 
   const handleSaveBOP = async () => {
     const payload = {
       sonda,
+      latitude,
+      longitude,
       valvulas: selectedValvulas,
       preventores: selectedPreventores,
     };
@@ -59,6 +83,8 @@ const CreateBOP = ({ onClose, onSaveItem }: Prop) => {
       window.alert("BOP salvo com sucesso");
       // Clear form after save
       setSonda("");
+      setLatitude(null);
+      setLongitude(null);
       setSelectedValvulas([]);
       setSelectedPreventores([]);
       onClose();
@@ -131,14 +157,52 @@ const CreateBOP = ({ onClose, onSaveItem }: Prop) => {
           ></button>
         </div>
         <div className="offcanvas-body">
-          <input
-            className="mb-3"
-            type="text"
-            id="sonda-cadastro"
-            placeholder="Digite a sonda:"
-            value={sonda}
-            onChange={handleSondaChange}
-          />
+          <div className="container">
+            <div className="row">
+              <div className="col-md-4">
+                <div className="input-group mb-3">
+                  <span className="input-group-text">Sonda</span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Digite a sonda"
+                    aria-label="Sonda"
+                    value={sonda}
+                    onChange={handleSondaChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="input-group mb-3">
+                  <span className="input-group-text">Latitude</span>
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Digite a latitude"
+                    aria-label="Latitude"
+                    value={latitude || ""}
+                    onChange={handleLatitudeChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="input-group mb-3">
+                  <span className="input-group-text">Longitude</span>
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Digite a longitude"
+                    aria-label="Longitude"
+                    value={longitude || ""}
+                    onChange={handleLongitudeChange}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="row gy-4">
             <div className="col-6">
               <div className="card">
@@ -150,9 +214,7 @@ const CreateBOP = ({ onClose, onSaveItem }: Prop) => {
                       draggable
                       onDragStart={(e) => handleDragStartValvula(e, valvula)}
                     >
-                      {createBadge({
-                        content: valvula,
-                      })}
+                      {createBadge({ content: valvula })}
                     </div>
                   ))}
                 </div>
@@ -170,9 +232,7 @@ const CreateBOP = ({ onClose, onSaveItem }: Prop) => {
                         handleDragStartPreventor(e, preventor)
                       }
                     >
-                      {createBadge({
-                        content: preventor,
-                      })}
+                      {createBadge({ content: preventor })}
                     </div>
                   ))}
                 </div>
@@ -212,14 +272,16 @@ const CreateBOP = ({ onClose, onSaveItem }: Prop) => {
                 </div>
               </div>
             </div>
-            <button
-              onClick={handleSaveBOP}
-              className="mt-3"
-              data-bs-dismiss="offcanvas"
-            >
-              Salvar
-            </button>
           </div>
+          <button
+            onClick={handleSaveBOP}
+            className="btn btn-primary mt-3"
+            data-bs-dismiss="offcanvas"
+            disabled={!formValid} // Disable button if form is not valid
+            type="button" // Ensure type is "button" to prevent form submission
+          >
+            Salvar
+          </button>
         </div>
       </div>
     </>

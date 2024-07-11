@@ -107,7 +107,7 @@ const WeatherForecast = ({ bopId }: { bopId: number }) => {
       },
       title: {
         display: true,
-        text: "Previsão do tempo para os próximos 6 dias",
+        text: `Previsão do tempo para os próximos 6 dias (${city})`,
         font: {
           size: 20, // Adjust font size if necessary
         },

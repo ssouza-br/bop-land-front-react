@@ -37,7 +37,7 @@ const DisplayBOPData = ({ items, onPageChange, onDeleteItem }: Prop) => {
 
   return (
     <>
-      <table className="table bg-danger mt-3">
+      <table className="table mt-3">
         <thead>
           <tr>
             <th scope="col">Sonda</th>
