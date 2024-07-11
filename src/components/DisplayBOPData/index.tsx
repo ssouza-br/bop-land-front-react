@@ -1,10 +1,7 @@
 import { requestInstance } from "../../services/axiosService";
-import {
-  Paginacao,
-  createTableRows,
-  renderPagination,
-} from "../../utils/table";
+import { createTableRows } from "../../utils/table";
 import { BOPData } from "../BOP";
+import Pagination, { Paginacao } from "../Pagination";
 
 export interface Items {
   data: BOPData[];
@@ -75,7 +72,9 @@ const DisplayBOPData = ({ items, onPageChange, onDeleteItem }: Prop) => {
           ))}
         </tbody>
       </table>
-      {renderPagination(pagination, onPageChange)}
+      {pagination && (
+        <Pagination pagination={pagination} onPageChange={onPageChange} />
+      )}
     </>
   );
 };

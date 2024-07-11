@@ -8,8 +8,11 @@ import {
   Title,
   Tooltip,
   Legend,
+  PluginChartOptions,
+  ChartOptions,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import "./index.css";
 
 // Register Chart.js components
 ChartJS.register(
@@ -78,18 +81,53 @@ const WeatherForecast = ({ bopId }: { bopId: number }) => {
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"bar"> = {
     scales: {
       y: {
         beginAtZero: true,
+        ticks: {
+          maxTicksLimit: 5, // Adjust the number of ticks to fit within the height
+        },
+      },
+      x: {
+        ticks: {
+          autoSkip: false, // Ensure all labels are shown
+        },
       },
     },
+    plugins: {
+      legend: {
+        display: true,
+        position: "top", // Position the legend to the top
+        labels: {
+          font: {
+            size: 10, // Adjust font size if necessary
+          },
+        },
+      },
+      title: {
+        display: true,
+        text: "Previsão do tempo para os próximos 6 dias",
+        font: {
+          size: 20, // Adjust font size if necessary
+        },
+      },
+    },
+    layout: {
+      padding: {
+        top: 10,
+        bottom: 30, // Adjust padding to ensure visibility
+      },
+    },
+    maintainAspectRatio: false,
   };
 
   return (
-    <div>
-      <h2>{`7-Day Weather Forecast (${city})`}</h2>
-      <Bar data={data} options={options} />
+    <div className="graphic-container">
+      <div className="graphic">
+        <Bar data={data} options={options} />
+      </div>
+      <p className="footnote">Fonte de dados: API CPTEC-INPE</p>
     </div>
   );
 };

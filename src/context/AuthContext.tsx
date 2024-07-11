@@ -4,6 +4,7 @@ import { requestInstance } from "../services/axiosService";
 import Cookies from "universal-cookie";
 
 interface User {
+  id: number;
   nome: string;
   email: string;
 }

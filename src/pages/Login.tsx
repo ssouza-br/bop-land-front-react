@@ -19,7 +19,7 @@ const Login: React.FC = () => {
   };
 
   const handleSubscribeRedirect = () => {
-    navigate("/subscribe");
+    navigate("/register");
   };
 
   return (

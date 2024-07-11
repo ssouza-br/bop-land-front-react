@@ -1,0 +1,25 @@
+/* index.css */
+.graphic-container {
+    position: relative;
+    padding: 10px;
+}
+
+.graphic {
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+}
+
+.graphic canvas {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.footnote {
+    font-size: 12px;
+    text-align: left;
+    margin-top: 5px;
+    font-weight: 600;
+}

@@ -117,7 +117,7 @@ const Test: React.FC<TestProps> = ({
         preventoresTestados: preventoresTestados.map((p) => p.id),
       };
       const response = await requestInstance.post("api/teste", payload);
-      window.alert(`Teste com id ${response.data.teste_id} salvo com sucesso`);
+      window.alert(`Teste com id ${response.data.testeId} salvo com sucesso`);
 
       // Remove the saved test from the state
       setTestes((prevTestes) => {
